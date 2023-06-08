@@ -1,0 +1,547 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Books-API",
+    "description": "A SIABUC API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Inventory",
+      "description": "Endpoint to retrieve books from an inventory"
+    },
+    {
+      "name": "Book",
+      "description": "Endpoint to find a specific book"
+    }
+  ],
+  "paths": {
+    "/inventory/": {
+      "get": {
+        "tags": [
+          "Inventory"
+        ],
+        "description": "Endpoint to retrieve all inventories",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Yada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Inventories"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Inventories"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory/{id}": {
+      "get": {
+        "tags": [
+          "Inventory"
+        ],
+        "description": "Endpoint to retrieve books from an inventory",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          },
+          {
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/sizeOfPage"
+          },
+          {
+            "$ref": "#/components/parameters/ordered"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventoryBooks"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventoryBooks"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory/comparison/{id}": {
+      "get": {
+        "tags": [
+          "Inventory"
+        ],
+        "description": "Endpoint to retrieve a comparison of the current order and correct order",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          },
+          {
+            "$ref": "#/components/parameters/pageReq"
+          },
+          {
+            "$ref": "#/components/parameters/sizeOfPageReq"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComparisonBooks"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComparisonBooks"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory/summary/{id}": {
+      "get": {
+        "tags": [
+          "Inventory"
+        ],
+        "description": "Endpoint to retrieve a full summary of the incorrect books by pages",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          },
+          {
+            "$ref": "#/components/parameters/sizeOfPageReq"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Summary"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Summary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/book/{copyId}": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "description": "Endpoint to find a specific book",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/copyId"
+          },
+          {
+            "$ref": "#/components/parameters/inventory"
+          },
+          {
+            "$ref": "#/components/parameters/prevCount"
+          },
+          {
+            "$ref": "#/components/parameters/nextCount"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#components/schemas/LocationBook"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#components/schemas/LocationBook"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Book": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1460
+          },
+          "acquisitionId": {
+            "type": "string",
+            "example": "495473"
+          },
+          "analyst": {
+            "type": "string",
+            "example": "Julio"
+          },
+          "capturedDate": {
+            "type": "string",
+            "example": "2015-01-12T16:42:21.000Z"
+          },
+          "countedDate": {
+            "type": "string",
+            "example": "2015-01-12T16:42:48.000Z"
+          },
+          "copyId": {
+            "type": "string",
+            "example": "364933"
+          },
+          "classification": {
+            "type": "string",
+            "example": "PQ7797 .A59 C37"
+          },
+          "bookDescription": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "example": "La carreta"
+              },
+              "isbn": {
+                "type": "string",
+                "example": "968-29-2229-1"
+              },
+              "author": {
+                "type": "string",
+                "example": "Amorim, Enrique"
+              },
+              "publisher": {
+                "type": "string",
+                "example": "Secretaría de Educación Pública, Dirección General de Publicaciones y Medios"
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "Book"
+        }
+      },
+      "InventoryBooks": {
+        "type": "object",
+        "properties": {
+          "isActive": {
+            "type": "boolean",
+            "example": false
+          },
+          "total": {
+            "type": "number",
+            "example": 2865
+          },
+          "totalPages": {
+            "type": "number",
+            "example": 29
+          },
+          "nextPage": {
+            "type": "number",
+            "example": 2
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "xml": {
+                "name": "book"
+              },
+              "$ref": "#/components/schemas/Book"
+            }
+          }
+        },
+        "xml": {
+          "name": "InventoryBooks"
+        }
+      },
+      "Inventory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "isoKey": {
+            "type": "string",
+            "example": "20140625101520"
+          },
+          "analyst": {
+            "type": "string",
+            "example": "Admin"
+          },
+          "startDate": {
+            "type": "string",
+            "example": "2014-06-25T15:15:20.000Z"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "2015-01-12T16:36:24.000Z"
+          },
+          "comments": {
+            "type": "string",
+            "example": "none"
+          },
+          "active": {
+            "type": "boolean",
+            "example": false
+          }
+        },
+        "xml": {
+          "name": "Inventory"
+        }
+      },
+      "Inventories": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number",
+            "example": 1
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "xml": {
+                "name": "inventory"
+              },
+              "$ref": "#/components/schemas/Inventory"
+            }
+          }
+        },
+        "xml": {
+          "name": "Inventories"
+        }
+      },
+      "LocationBook": {
+        "type": "object",
+        "properties": {
+          "prevBooks": {
+            "type": "array",
+            "items": {
+              "xml": {
+                "name": "book"
+              },
+              "$ref": "#/components/schemas/Book"
+            }
+          },
+          "currentBook": {
+            "xml": {
+              "name": "book"
+            },
+            "$ref": "#/components/schemas/Book"
+          },
+          "nextBooks": {
+            "type": "array",
+            "items": {
+              "xml": {
+                "name": "book"
+              },
+              "$ref": "#/components/schemas/Book"
+            }
+          }
+        },
+        "xml": {
+          "name": "LocationBook"
+        }
+      },
+      "ComparisonBooks": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number",
+            "example": 200
+          },
+          "totalPages": {
+            "type": "number",
+            "example": 5
+          },
+          "nextPage": {
+            "type": "number",
+            "example": 2
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "currentOrder": {
+                "type": "array",
+                "items": {
+                  "xml": {
+                    "name": "book"
+                  },
+                  "$ref": "#/components/schemas/Book"
+                }
+              },
+              "correctOrder": {
+                "type": "array",
+                "items": {
+                  "xml": {
+                    "name": "book"
+                  },
+                  "$ref": "#/components/schemas/Book"
+                }
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "ComparisonBooks"
+        }
+      },
+      "Summary": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number",
+            "example": 200
+          },
+          "incorrectBooks": {
+            "type": "number",
+            "example": 199
+          },
+          "correctBooks": {
+            "type": "number",
+            "example": 1
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "page": {
+                  "type": "number",
+                  "example": 1
+                },
+                "incorrectBooks": {
+                  "type": "number",
+                  "example": 100
+                }
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "Summary"
+        }
+      }
+    },
+    "parameters": {
+      "id": {
+        "name": "id",
+        "in": "path",
+        "description": "Inventory ID",
+        "required": true,
+        "schema": {
+          "type": "number"
+        }
+      },
+      "copyId": {
+        "name": "copyId",
+        "in": "path",
+        "description": "Copy ID",
+        "required": true,
+        "schema": {
+          "type": "number"
+        }
+      },
+      "inventory": {
+        "name": "inventory",
+        "in": "query",
+        "description": "Inventory ID",
+        "required": true,
+        "schema": {
+          "type": "number"
+        }
+      },
+      "page": {
+        "name": "page",
+        "in": "query",
+        "description": "Page number, by default retrieve all without pagination",
+        "schema": {
+          "type": "number"
+        }
+      },
+      "sizeOfPage": {
+        "name": "sizeOfPage",
+        "in": "query",
+        "description": "Total books per page, by default retrieve all without pagination",
+        "schema": {
+          "type": "number"
+        }
+      },
+      "prevCount": {
+        "name": "prevCount",
+        "in": "query",
+        "description": "Previous books to the specific book, by default is 2",
+        "schema": {
+          "type": "number"
+        }
+      },
+      "nextCount": {
+        "name": "nextCount",
+        "in": "query",
+        "description": "Next books to the specific book by, default is 2",
+        "schema": {
+          "type": "number"
+        }
+      },
+      "ordered": {
+        "name": "ordered",
+        "in": "query",
+        "description": "Retrieve books ordered by LCC",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "pageReq": {
+        "name": "page",
+        "in": "query",
+        "required": true,
+        "description": "Page number",
+        "schema": {
+          "type": "number"
+        }
+      },
+      "sizeOfPageReq": {
+        "name": "sizeOfPage",
+        "in": "query",
+        "required": true,
+        "description": "Total books per page",
+        "schema": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
